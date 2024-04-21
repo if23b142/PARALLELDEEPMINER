@@ -22,7 +22,7 @@ int main() {
 	Map* map = new Map;
 	
 	int roundCount = 0;
-	
+	//bots are created here
 	Robo* robo[5];
 	
 	int ammountOfBots = 0;
