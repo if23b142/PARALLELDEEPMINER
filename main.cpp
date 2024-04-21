@@ -59,10 +59,10 @@ int main() {
 		
 		//robos(CPU/PLAYER) get affected by negative values
 		for(int i = 0; i < 5; i++){
-			for(int & num : map->mGetMatrix()[robo1->rGetX()][robo1->rGetY()])
+			for(int & num : map->mGetMatrix()[robo->rGetX()][robo->rGetY()])
 			{
 				if(num < 0){
-					map->mAffectRobo(num, *robo1, 1);
+					map->mAffectRobo(num, robo, 1);
 					num = 0;
 					break;
 				}
