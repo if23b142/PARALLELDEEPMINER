@@ -2,7 +2,6 @@
 #include <list>
 #include <cstdlib>
 #include <ctime>
-#include <windows.h>
 #include <vector>
 #include <algorithm>
 #include <random>
@@ -22,12 +21,6 @@ int main() {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	Map* map = new Map;
 	
-	char inputMovement;
-	int inputMovementRand = 0;
-	char inputDigging;
-	int inputDiggingRand = 0;
-	char inputCreation;
-	int inputCreationRand = 0;
 	int roundCount = 0;
 	
 	Robo* robo[5];
@@ -55,7 +48,7 @@ int main() {
 	while(1){
 		//robos(CPU) move
 		//TODO: ROBO MOVE
-		for(int i = 0; i < robo.length; i++)
+		for(int i = 0; i < 5; i++)
 		{
 			mtx.lock();
 			
@@ -65,12 +58,14 @@ int main() {
 		}
 		
 		//robos(CPU/PLAYER) get affected by negative values
-		for(int & num : map->mGetMatrix()[robo1->rGetX()][robo1->rGetY()])
-		{
-			if(num < 0){
-				map->mAffectRobo(num, *robo1, 1);
-				num = 0;
-				break;
+		for(int i = 0; i < 5; i++){
+			for(int & num : map->mGetMatrix()[robo1->rGetX()][robo1->rGetY()])
+			{
+				if(num < 0){
+					map->mAffectRobo(num, *robo1, 1);
+					num = 0;
+					break;
+				}
 			}
 		}
 		
