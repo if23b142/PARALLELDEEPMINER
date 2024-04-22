@@ -2,8 +2,6 @@
 #include <iostream>
 #include <algorithm>
 
-//mrrrreow
-
 Map::Map(){
 	for (int i = 0; i < m_X; ++i) {
 		for (int j = 0; j < m_Y; ++j) {
@@ -16,47 +14,22 @@ Map::Map(){
 	m_isEmpty = false;
 }
 	
-void Map::mPrintMap(HANDLE hConsole, Robo& robo1, Robo& robo2) {
+void Map::mPrintMap(Robo* robo) {
 	std::cout << "+-------------------+" << std::endl;
 	for (int i = 0; i < 5; ++i) {
 		std::cout << "|";
 		for (int j = 0; j < 5; ++j) {
 			if(m_Matrix[i][j].front() < 0)
-			{
-				
-			}
-			else
-			if(i == robo1.rGetX() && j == robo1.rGetY()){
-				std::cout << "+";
-			}
-			else
-			if(i == robo2.rGetX() && j == robo2.rGetY()){
-				std::cout << "-";
-			}
-			else
-			{
-				std::cout << " ";
-			}
-			
-			std::cout << m_Matrix[i][j].front();
-			if(i == robo1.rGetX() && j == robo1.rGetY()){
-				std::cout << "+";
-			}
-			else
-			if(i == robo2.rGetX() && j == robo2.rGetY()){
-				std::cout << "-";
-			}
-			else
-			{
-				std::cout << " ";
-			}
+			std::cout << " " << m_Matrix[i][j].front() << " ";
 			std::cout << "|";
 		}
 		
 		std::cout << std::endl << "+-------------------+" << std::endl;
 	}
-	std::cout << "Robo1(" << robo1.rGetName() << ") Score:" << robo1.rGetScore() << std::endl;
-	std::cout << "Robo2(" << robo2.rGetName() << ") Score:" << robo2.rGetScore() << std::endl;
+	for(int i = 0; i < 5; i++)
+	{
+		std::cout << "Robo1(" << robo[i].rGetName() << ") Score:" << robo[i].rGetScore() << std::endl;
+	}
 }
 
 void Map::mShuffleMap(){
@@ -127,6 +100,14 @@ bool Map::mIsEmpty(){
 		}
 	}
 	return m_isEmpty;
+}
+
+void Map::mSetRoundCount(int roundCount){
+	m_roundCount = roundCount;
+}
+
+int Map::mGetRoundCount() const{
+	return m_roundCount;
 }
 
 void Map::mSetIsEmpty(bool isEmpty){

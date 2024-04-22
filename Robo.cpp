@@ -1,4 +1,5 @@
 #include "Robo.h"
+#include "Map.h"
 
 int Robo::rGetAbilityCount() const {
 	return m_AbilityCount;
@@ -66,8 +67,16 @@ void Robo::rChangeY(int changeY){
 	if(rGetX() >= 0 && rGetX() < 5 && rGetY() + changeY >= 0 && rGetY() + changeY < 5)
 		m_Y += changeY;
 }
-void Robo::move(){
-	if(this->rGetDisabledMovement()){
+void Robo::dig(std::list<int> matrix[5][5]){
+	if(matrix[m_X][m_Y].size() == 0){
+		return;
+	}
+	rChangeScore(matrix[m_X][m_Y].front());
+	matrix[m_X][m_Y].pop_front();
+}
+void Robo::botDoesThings(Map* map, Robo* robo){
+	if(this->rGetDisabledMovement())
+	{
 		this->rSetDisabledMovement(false);
 	}
 	else
@@ -88,11 +97,42 @@ void Robo::move(){
 			break;
 		}
 	}
-}
-void Robo::dig(std::list<int> matrix[5][5]){
-	if(matrix[m_X][m_Y].size() == 0){
-		return;
+
+	for(int i = 0; i < 5; i++)
+	{
+		for(int & num : map->mGetMatrix()[robo->rGetX()][robo->rGetY()])
+		{
+			if(num < 0){
+				map->mAffectRobo(num, robo[i], i);
+				num = 0;
+				break;
+			}
+		}
 	}
-	rChangeScore(matrix[m_X][m_Y].front());
-	matrix[m_X][m_Y].pop_front();
+
+	if(robo->rGetDisabledDigging())
+	{
+		robo->rSetDisabledDigging(false);
+	}
+	else
+	{
+		m_mtx.lock();
+		if(robo->rGetAbilityCount() > 0){
+			int randomNr = rand() % 2;
+			switch(randomNr){
+				case '0':
+					robo->dig(map->mGetMatrix());
+				break;
+				case '1':
+					robo->ability(map->mGetMatrix());
+					robo->rChangeAbilityCount(-1);
+				break;
+			}
+		}
+		else
+		{
+			robo->dig(map->mGetMatrix());
+		}
+		m_mtx.unlock();
+	}
 }

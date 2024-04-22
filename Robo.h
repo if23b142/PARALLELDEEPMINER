@@ -13,6 +13,7 @@ private:
 	int m_AbilityCount;
 	bool m_DisabledMovement;
 	bool m_DisabledDigging;
+	std::mutex m_mtx;
 public:
 	//Destructor
 	virtual ~Robo(){}
@@ -43,8 +44,8 @@ public:
 	void rChangeY(int changeY);
 	
 	//functionality
-	void move();
-	void dig(std::list<int> matrix[5][5]);
+	void botDoesThings(Map map, Robo* robo);
+	void Robo::dig(std::list<int> matrix[5][5]);
 	virtual void ability(std::list<int> matrix[5][5]) = 0;
 };
 
